@@ -12,6 +12,28 @@ Parameters:
       - t2.small
       - t2.medium
     ConstraintDescription: Must be a valid EC2 instance type.
+  Region:
+    Type: String
+    AllowedValues:
+      - stage
+      - us1
+      - eu
+      - us2
+    Description: Select Region Type
+    Default: us1
+  
+  Environment:
+    Type: String
+    AllowedValues:
+      - stage
+      - prod
+    Description: Select which Type
+    Default: prod
+
+  ApplicationName:
+    Type: String
+    Description: Enter the name of the application
+    Default: 'authzero'
 
 Resources:
   MyEC2Instance:
@@ -23,4 +45,4 @@ Resources:
       KeyName: cf-demo
       Tags:
         - Key: Name
-          Value: MyEC2Instance-us2
+          Value: !Join [ '-', [!Ref Region, !Ref Environment, !Ref ApplicationName, "waf"]]
